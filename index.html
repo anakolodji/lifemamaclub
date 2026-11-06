@@ -444,8 +444,30 @@ document.addEventListener('DOMContentLoaded', async function() {
           window.setTimeout(function() { window.scrollTo({ top: 0, behavior: 'auto' }); }, 80);
         });
 
+        function reorderHomeFlow() {
+          if (currentRoute !== 'home') return true;
+          const included = document.getElementById('incluido');
+          const experience = document.getElementById('experiencia');
+          if (!included || !experience) return false;
+
+          if (included.parentElement === experience.parentElement && included.nextElementSibling !== experience) {
+            experience.before(included);
+          }
+
+          const primaryNav = document.querySelector('nav.nav');
+          if (primaryNav) {
+            const includedLink = primaryNav.querySelector('a[href="#incluido"]');
+            const experienceLink = primaryNav.querySelector('a[href="#experiencia"]');
+            if (includedLink && experienceLink && includedLink.nextElementSibling !== experienceLink) {
+              experienceLink.before(includedLink);
+            }
+          }
+          return true;
+        }
+
         function installHomeShowcase() {
           if (currentRoute !== 'home') return true;
+          reorderHomeFlow();
           if (document.getElementById('experiencias-passadas')) return true;
           const included = document.getElementById('incluido');
           if (!included) return false;
@@ -553,15 +575,18 @@ document.addEventListener('DOMContentLoaded', async function() {
 
           const showcase = shell.querySelector('#experiencias-passadas');
           const testimonials = shell.querySelector('#depoimentos');
-          included.before(showcase, testimonials);
+          const experience = document.getElementById('experiencia');
+          if (experience) experience.after(showcase, testimonials);
+          else included.after(showcase, testimonials);
 
           const primaryNav = document.querySelector('nav.nav');
           if (primaryNav && !primaryNav.querySelector('a[href="#experiencias-passadas"]')) {
             const galleryLink = document.createElement('a');
             galleryLink.href = '#experiencias-passadas';
             galleryLink.textContent = 'Galeria';
-            const includedLink = primaryNav.querySelector('a[href="#incluido"]');
-            primaryNav.insertBefore(galleryLink, includedLink || null);
+            const experienceLink = primaryNav.querySelector('a[href="#experiencia"]');
+            if (experienceLink) experienceLink.after(galleryLink);
+            else primaryNav.appendChild(galleryLink);
           }
           if (primaryNav && !primaryNav.querySelector('[data-partner-link]')) {
             const partnerLink = document.createElement('a');
@@ -572,6 +597,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             const applicationLink = primaryNav.querySelector('a[href="#candidatura"]');
             primaryNav.insertBefore(partnerLink, applicationLink || null);
           }
+          reorderHomeFlow();
 
           const carousel = testimonials.querySelector('.lmc-carousel');
           const slides = Array.from(carousel.querySelectorAll('.lmc-slide'));
