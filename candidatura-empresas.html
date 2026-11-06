@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#F4EFE8">
+  <meta name="description" content="Candidatura para marcas parceiras do Life Mama Club.">
+  <meta name="partner-form-endpoint" content="">
+  <title>Candidatura para marcas parceiras — Life Mama Club</title>
+  <link rel="stylesheet" href="assets/partners.css">
+</head>
+<body class="application-page">
+  <a class="skip-link" href="#formulario">Ir para o formulário</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="Life Mama Club — início">
+        <span class="brand-word">lifemama</span><span class="brand-club">CLUB</span>
+      </a>
+      <nav class="site-nav" aria-label="Navegação principal"><a href="index.html">O Club</a><a href="parcerias.html" aria-current="page">Parcerias</a></nav>
+      <a class="button outline" href="parcerias.html"><span aria-hidden="true">←</span> Voltar às parcerias</a>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <section id="application-view">
+      <div class="application-intro">
+        <div class="container intro-grid">
+          <div class="intro-copy">
+            <p class="eyebrow">Parcerias &amp; Colaborações</p>
+            <h1 class="display">Vamos criar algo significativo juntas?</h1>
+            <p class="lead">Toda marca tem uma história, uma essência e algo próprio para compartilhar. Queremos conhecer a sua.</p>
+            <p class="duration">Leva aproximadamente 3 a 5 minutos.</p>
+          </div>
+          <div class="intro-aside">
+            <p>Conte um pouco sobre sua empresa, seus interesses e as possibilidades de colaboração que imagina para o Life Mama Club.</p>
+            <p>Nossa equipe avaliará cada proposta com atenção, buscando conexões que façam sentido para a marca e para a comunidade.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="container application-layout">
+        <aside class="progress-panel" aria-label="Progresso da candidatura">
+          <h2>Sua candidatura</h2>
+          <div class="progress-track" aria-hidden="true"><div class="progress-value"></div></div>
+          <ol class="progress-list">
+            <li aria-current="step"><span class="step-number">01</span><span>Sobre sua marca</span></li>
+            <li><span class="step-number">02</span><span>Sobre você</span></li>
+            <li><span class="step-number">03</span><span>Sobre a parceria</span></li>
+            <li><span class="step-number">04</span><span>Finalização</span></li>
+          </ol>
+        </aside>
+
+        <form class="application-form" id="formulario" method="post" novalidate>
+          <fieldset class="form-step" data-step="1">
+            <legend><span>01 — Sobre sua marca</span><strong>Queremos conhecer sua empresa.</strong></legend>
+            <div class="field-grid">
+              <div class="field"><label for="marca">Nome da empresa ou marca <span class="required">*</span></label><p class="hint">Como sua marca é conhecida?</p><input id="marca" name="marca" type="text" autocomplete="organization" required></div>
+              <div class="field"><label for="site">Site ou Instagram <span class="required">*</span></label><p class="hint">Onde podemos conhecer melhor sua empresa?</p><input id="site" name="site_ou_instagram" type="text" inputmode="url" placeholder="https:// ou @perfil" required></div>
+              <div class="field"><label for="segmento">Segmento de atuação <span class="required">*</span></label><p class="hint">Selecione a área que mais representa sua marca.</p><select id="segmento" name="segmento" required><option value="">Selecione</option><option>Bem-estar e autocuidado</option><option>Esporte e movimento</option><option>Moda, beleza e lifestyle</option><option>Arte, cultura e criatividade</option><option>Gastronomia e hospitalidade</option><option>Educação e desenvolvimento</option><option>Carreira, negócios e tecnologia</option><option>Viagens e experiências</option><option>Outro</option></select></div>
+              <div class="field"><label for="cidade">Cidade e estado onde a empresa atua <span class="required">*</span></label><p class="hint">Ex.: São Paulo, SP</p><input id="cidade" name="cidade_estado" type="text" autocomplete="address-level2" required></div>
+            </div>
+            <div class="form-actions"><span></span><button class="button" type="button" data-next>Continuar <span aria-hidden="true">→</span></button></div>
+          </fieldset>
+
+          <fieldset class="form-step" data-step="2" hidden>
+            <legend><span>02 — Sobre você</span><strong>Quem conduz esta conversa?</strong></legend>
+            <div class="field-grid">
+              <div class="field"><label for="responsavel">Nome da pessoa responsável <span class="required">*</span></label><input id="responsavel" name="nome_responsavel" type="text" autocomplete="name" required></div>
+              <div class="field"><label for="cargo">Cargo ou função na empresa <span class="required">*</span></label><input id="cargo" name="cargo" type="text" autocomplete="organization-title" required></div>
+              <div class="field"><label for="email">E-mail profissional <span class="required">*</span></label><input id="email" name="email" type="email" autocomplete="email" required></div>
+              <div class="field"><label for="whatsapp">WhatsApp para contato <span class="required">*</span></label><input id="whatsapp" name="whatsapp" type="tel" autocomplete="tel" placeholder="(11) 90000-0000" required></div>
+            </div>
+            <div class="form-actions"><button class="back-button" type="button" data-back>← Voltar</button><button class="button" type="button" data-next>Continuar <span aria-hidden="true">→</span></button></div>
+          </fieldset>
+
+          <fieldset class="form-step" data-step="3" hidden>
+            <legend><span>03 — Sobre a parceria</span><strong>O que podemos construir juntas?</strong></legend>
+            <div class="field-grid">
+              <fieldset class="choice-group" data-required-group="colaboracao">
+                <legend>Que tipo de colaboração você imagina com o Life Mama Club? <span class="required">*</span></legend>
+                <p class="hint">Você pode selecionar mais de uma possibilidade.</p>
+                <div class="choice-list">
+                  <label class="choice"><input type="checkbox" name="tipo_colaboracao" value="Patrocinar experiências ou eventos"><span>Patrocinar experiências ou eventos</span></label>
+                  <label class="choice"><input type="checkbox" name="tipo_colaboracao" value="Realizar ativações de marca"><span>Realizar ativações de marca</span></label>
+                  <label class="choice"><input type="checkbox" name="tipo_colaboracao" value="Apresentar produtos ou serviços"><span>Apresentar produtos ou serviços</span></label>
+                  <label class="choice"><input type="checkbox" name="tipo_colaboracao" value="Receber a comunidade no meu espaço"><span>Receber a comunidade no meu espaço</span></label>
+                  <label class="choice"><input type="checkbox" name="tipo_colaboracao" value="Cocriar uma experiência exclusiva"><span>Cocriar uma experiência exclusiva</span></label>
+                  <label class="choice"><input type="checkbox" name="tipo_colaboracao" value="Oferecer benefícios às integrantes"><span>Oferecer benefícios às integrantes</span></label>
+                  <label class="choice"><input type="checkbox" name="tipo_colaboracao" value="Construir uma parceria contínua"><span>Construir uma parceria contínua</span></label>
+                  <label class="choice"><input type="checkbox" name="tipo_colaboracao" value="Desenvolver um projeto especial"><span>Desenvolver um projeto especial</span></label>
+                  <label class="choice"><input type="checkbox" name="tipo_colaboracao" value="Tenho uma ideia diferente"><span>Tenho uma ideia diferente e gostaria de compartilhar</span></label>
+                  <label class="choice"><input type="checkbox" name="tipo_colaboracao" value="Ainda não sei"><span>Ainda não sei; gostaria de conhecer as possibilidades</span></label>
+                </div>
+              </fieldset>
+              <div class="field full"><label for="objetivo">O que você gostaria de alcançar com essa parceria? <span class="required">*</span></label><p class="hint">Conte brevemente o que motivou seu interesse em se conectar com o Life Mama Club.</p><textarea id="objetivo" name="objetivo_parceria" required></textarea></div>
+              <div class="field full"><label for="oferta">O que sua marca gostaria de oferecer ou construir junto à comunidade?</label><p class="hint">Pode ser uma experiência, produto, serviço, espaço, conhecimento ou uma ideia que ainda está tomando forma.</p><textarea id="oferta" name="oferta_para_comunidade"></textarea></div>
+              <div class="field full"><label for="periodo">Existe algum período ou evento de interesse?</label><p class="hint">Opcional. Caso tenha alguma data ou campanha em mente, compartilhe conosco.</p><textarea id="periodo" name="periodo_evento"></textarea></div>
+              <div class="field full"><label for="recursos">Sua empresa já tem um investimento ou recurso previsto para essa colaboração?</label><p class="hint">Opcional.</p><select id="recursos" name="recursos_previstos"><option value="">Selecione</option><option>Temos orçamento para patrocínio ou ativações</option><option>Podemos oferecer produtos ou serviços</option><option>Podemos disponibilizar um espaço</option><option>Podemos combinar investimento e outras contribuições</option><option>Ainda estamos avaliando as possibilidades</option><option>Prefiro conversar sobre isso posteriormente</option></select></div>
+            </div>
+            <div class="form-actions"><button class="back-button" type="button" data-back>← Voltar</button><button class="button" type="button" data-next>Continuar <span aria-hidden="true">→</span></button></div>
+          </fieldset>
+
+          <fieldset class="form-step" data-step="4" hidden>
+            <legend><span>04 — Finalização</span><strong>Últimos detalhes.</strong></legend>
+            <div class="field-grid">
+              <div class="field full"><label for="origem">Como conheceu o Life Mama Club?</label><select id="origem" name="origem"><option value="">Selecione</option><option>Instagram</option><option>Evento Life Mama</option><option>Indicação</option><option>Aplicativo Life Mama</option><option>Busca na internet</option><option>Outro</option></select></div>
+              <div class="field full consent-list">
+                <label class="consent"><input type="checkbox" name="consentimento" required><span>Li a <a href="https://lifemama.app/pt-br/privacy-policy.html" target="_blank" rel="noopener">Política de Privacidade</a> e concordo com o tratamento dos dados fornecidos para análise da candidatura e eventual contato relacionado à proposta de parceria. <span class="required">*</span></span></label>
+                <label class="consent"><input type="checkbox" name="comunicacoes"><span>Gostaria de receber novidades e informações sobre futuras oportunidades de parceria com a Life Mama.</span></label>
+              </div>
+            </div>
+            <div class="form-actions"><button class="back-button" type="button" data-back>← Voltar</button><button class="button olive" type="submit">Enviar minha proposta <span aria-hidden="true">→</span></button></div>
+            <p class="small-note">O envio da candidatura é gratuito e não gera compromisso comercial. As propostas serão analisadas individualmente, conforme o alinhamento com o Club e as oportunidades disponíveis.</p>
+          </fieldset>
+          <p class="form-status" id="form-status" role="alert" tabindex="-1" hidden></p>
+        </form>
+      </div>
+    </section>
+
+    <section class="application-success" id="success-view" hidden>
+      <div class="container success-content">
+        <p class="eyebrow light">Parcerias &amp; Colaborações</p>
+        <h1 class="display" tabindex="-1">Sua proposta foi recebida.</h1>
+        <div class="prose">
+          <p>Obrigada por compartilhar um pouco do universo da sua marca conosco.</p>
+          <p>Nossa equipe avaliará as informações enviadas e poderá entrar em contato caso identifique uma oportunidade de colaboração.</p>
+          <p>Acreditamos que grandes experiências começam quando pessoas e ideias se encontram.</p>
+        </div>
+        <div class="signature"><strong>Life Mama Club</strong><br><em>Conexões que ampliam a vida.</em></div>
+        <a class="button light" href="index.html">Voltar ao Life Mama Club <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/partner-form.js"></script>
+</body>
+</html>

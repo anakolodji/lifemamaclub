@@ -554,6 +554,15 @@ document.addEventListener('DOMContentLoaded', async function() {
             const includedLink = primaryNav.querySelector('a[href="#incluido"]');
             primaryNav.insertBefore(galleryLink, includedLink || null);
           }
+          if (primaryNav && !primaryNav.querySelector('[data-partner-link]')) {
+            const partnerLink = document.createElement('a');
+            partnerLink.href = new URL('parcerias.html', baseUrl).href;
+            partnerLink.target = '_top';
+            partnerLink.dataset.partnerLink = 'true';
+            partnerLink.textContent = 'Empresas';
+            const applicationLink = primaryNav.querySelector('a[href="#candidatura"]');
+            primaryNav.insertBefore(partnerLink, applicationLink || null);
+          }
 
           const carousel = testimonials.querySelector('.lmc-carousel');
           const slides = Array.from(carousel.querySelectorAll('.lmc-slide'));
