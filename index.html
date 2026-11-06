@@ -648,10 +648,13 @@ document.addEventListener('DOMContentLoaded', async function() {
             image.className = 'lmc-brand-logo' + (onLight ? ' on-light' : '');
             anchor.replaceChildren(image);
           });
-          document.querySelectorAll('footer img[alt="Life Mama"]').forEach(function (image) {
-            image.src = logoUrl;
-            image.alt = 'Life Mama Club';
-            image.className = 'lmc-brand-logo';
+          document.querySelectorAll('footer img[alt^="Life Mama"]').forEach(function (image) {
+            const link = image.closest('a');
+            if (link && link.children.length === 1 && !link.textContent.trim()) link.remove();
+            else image.remove();
+          });
+          document.querySelectorAll('footer p, footer span, footer strong').forEach(function (element) {
+            if (element.textContent.trim() === 'Life Mama Club') element.remove();
           });
           return true;
         }
