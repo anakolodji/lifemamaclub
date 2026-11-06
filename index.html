@@ -454,13 +454,14 @@ document.addEventListener('DOMContentLoaded', async function() {
             'a,button,input,textarea,select{transition-property:color,background-color,border-color,box-shadow,transform,opacity;transition-duration:.28s;transition-timing-function:cubic-bezier(.22,1,.36,1)}',
             'a.btn:hover,button.btn:hover{transform:translateY(-2px)}',
             'a.btn:active,button.btn:active{transform:translateY(0) scale(.985)}',
-            '.lmc-reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}',
-            '.lmc-reveal.is-visible{opacity:1;transform:none}',
+            '@keyframes lmcRevealIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}',
+            '.lmc-reveal{opacity:1;transform:none}',
+            '.lmc-reveal.is-visible{animation:lmcRevealIn .7s cubic-bezier(.22,1,.36,1)}',
             '.lmc-field-error{margin-top:12px;color:#8c2f24;font-size:14px;font-weight:600;line-height:1.5}',
             'html[data-lmc-route="home"] header{position:fixed!important;top:0;left:0;right:0;z-index:50;transition:background-color .35s ease,box-shadow .35s ease,backdrop-filter .35s ease}',
             'html[data-lmc-route="home"] header.lmc-scrolled{background:rgba(71,41,31,.92);box-shadow:0 1px 0 rgba(255,255,255,.14);backdrop-filter:blur(14px)}',
             'html[data-lmc-route="candidatura"] header{position:sticky!important;top:0;z-index:50;background:rgba(244,239,232,.94);backdrop-filter:blur(14px)}',
-            '@media(max-width:900px){html{scroll-padding-top:88px}a.btn,button.btn{min-height:48px}.lmc-reveal{transform:translateY(16px)}}',
+            '@media(max-width:900px){html{scroll-padding-top:88px}a.btn,button.btn{min-height:48px}}',
             '@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.lmc-reveal{opacity:1!important;transform:none!important}}'
           ].join('');
           document.head.appendChild(style);
@@ -468,9 +469,9 @@ document.addEventListener('DOMContentLoaded', async function() {
           const form = document.querySelector('form');
           if (form) form.removeAttribute('novalidate');
 
-          const header = document.querySelector('header');
           function updateHeader() {
-            if (header) header.classList.toggle('lmc-scrolled', window.scrollY > 24);
+            const currentHeader = document.querySelector('header');
+            if (currentHeader) currentHeader.classList.toggle('lmc-scrolled', window.scrollY > 24);
           }
           window.addEventListener('scroll', updateHeader, { passive: true });
           updateHeader();
