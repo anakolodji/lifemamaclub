@@ -38,6 +38,8 @@ button, a, input, textarea, select { transition: color .25s ease, background-col
 .brand { display: inline-flex; align-items: baseline; gap: 18px; color: inherit; text-decoration: none; }
 .brand-word { font-family: var(--serif); font-size: 30px; font-weight: 700; letter-spacing: -.03em; }
 .brand-club { font-family: var(--serif); font-size: 12px; letter-spacing: .34em; }
+.brand-logo { display: block; width: 180px; height: auto; }
+.brand-logo.on-light { filter: brightness(0) saturate(100%) invert(14%) sepia(16%) saturate(1405%) hue-rotate(342deg) brightness(92%) contrast(89%); }
 .site-nav { display: flex; align-items: center; gap: 28px; }
 .site-nav a { border-bottom: 1px solid transparent; font-size: 13px; font-weight: 600; text-decoration: none; }
 .site-nav a:hover, .site-nav a[aria-current="page"] { border-color: currentColor; }
@@ -194,6 +196,7 @@ button, a, input, textarea, select { transition: color .25s ease, background-col
   .header-inner { min-height: 78px; gap: 16px; }
   .brand-word { font-size: 26px; }
   .brand-club { font-size: 10px; }
+  .brand-logo { width: 155px; }
   .site-nav { display: none; }
   .header-inner > .button { min-height: 46px; padding: 0 18px; }
   .partner-hero, .hero-grid { min-height: auto; }
@@ -229,6 +232,7 @@ button, a, input, textarea, select { transition: color .25s ease, background-col
 @media (max-width: 430px) {
   .header-inner > .button { padding: 0 15px; font-size: 12px; }
   .brand { gap: 12px; }
+  .brand-logo { width: 150px; }
   .display { font-size: 47px; }
   .section-title { font-size: 39px; }
   .hero-photo, .curation-photo { height: 420px; }

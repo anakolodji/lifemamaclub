@@ -343,6 +343,15 @@ document.addEventListener('DOMContentLoaded', async function() {
           window.parent.postMessage(Object.assign({ __lmc: type, route: currentRoute }, detail || {}), '*');
         }
 
+        function siteAssetUrl(name) {
+          try {
+            const base = new URL('.', window.parent.location.href.split('#')[0]).href;
+            return new URL('assets/' + name, base).href;
+          } catch (error) {
+            return 'assets/' + name;
+          }
+        }
+
         function sectionForLink(link) {
           const label = (link.textContent || '').toLocaleLowerCase('pt-BR');
           if (label.includes('experiência')) return 'experiencia';
@@ -603,6 +612,24 @@ document.addEventListener('DOMContentLoaded', async function() {
           return true;
         }
 
+        function installBrandLogo() {
+          const logoUrl = siteAssetUrl('lifemama-club-logo-white.png');
+          const onLight = currentRoute === 'candidatura';
+          document.querySelectorAll('header a[aria-label*="Life Mama"]').forEach(function (anchor) {
+            const image = document.createElement('img');
+            image.src = logoUrl;
+            image.alt = 'Life Mama Club';
+            image.className = 'lmc-brand-logo' + (onLight ? ' on-light' : '');
+            anchor.replaceChildren(image);
+          });
+          document.querySelectorAll('footer img[alt="Life Mama"]').forEach(function (image) {
+            image.src = logoUrl;
+            image.alt = 'Life Mama Club';
+            image.className = 'lmc-brand-logo';
+          });
+          return true;
+        }
+
         function installEnhancements() {
           if (!document.head || document.getElementById('lmc-enhancements')) return false;
 
@@ -626,6 +653,8 @@ document.addEventListener('DOMContentLoaded', async function() {
             '.lmc-reveal{opacity:1;transform:none}',
             '.lmc-reveal.is-visible{animation:lmcRevealIn .7s cubic-bezier(.22,1,.36,1)}',
             '.lmc-field-error{margin-top:12px;color:#8c2f24;font-size:14px;font-weight:600;line-height:1.5}',
+            '.lmc-brand-logo{display:block!important;width:180px!important;height:auto!important}',
+            '.lmc-brand-logo.on-light{filter:brightness(0) saturate(100%) invert(14%) sepia(16%) saturate(1405%) hue-rotate(342deg) brightness(92%) contrast(89%)}',
             '.lmc-container{width:100%;max-width:1280px;margin:0 auto;padding-left:64px;padding-right:64px;box-sizing:border-box}',
             '.lmc-past{background:#352820;color:#fff;padding:144px 0}',
             '.lmc-section-head{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:32px;align-items:end;margin-bottom:72px}',
@@ -670,7 +699,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             'html[data-lmc-route="home"] header.lmc-scrolled{background:rgba(71,41,31,.92);box-shadow:0 1px 0 rgba(255,255,255,.14);backdrop-filter:blur(14px)}',
             'html[data-lmc-route="candidatura"] header{position:sticky!important;top:0;z-index:50;background:rgba(244,239,232,.94);backdrop-filter:blur(14px)}',
             '@media(max-width:1180px) and (min-width:901px){nav.nav{gap:20px!important}nav.nav a{font-size:13px!important}.lmc-container{padding-left:40px;padding-right:40px}}',
-            '@media(max-width:900px){html{scroll-padding-top:88px}a.btn,button.btn{min-height:48px}.lmc-container{padding-left:24px;padding-right:24px}.lmc-past,.lmc-testimonials{padding:88px 0}.lmc-section-head,.lmc-testimonial-heading{grid-template-columns:1fr;gap:28px;margin-bottom:48px}.lmc-section-head>div:first-child,.lmc-section-intro,.lmc-testimonial-heading>div,.lmc-testimonial-heading>.lmc-content-note{grid-column:1;text-align:left}.lmc-section-head h2,.lmc-testimonial-heading h2{font-size:40px}.lmc-gallery{grid-template-columns:1fr;gap:20px}.lmc-card-copy{padding:28px}.lmc-carousel{padding-top:44px}.lmc-slide:not([hidden]){grid-template-columns:1fr;gap:32px}.lmc-slide blockquote,.lmc-slide>p{grid-column:1}.lmc-slide blockquote{font-size:33px}.lmc-carousel-controls{grid-template-columns:1fr auto}.lmc-carousel-dots{display:none}.lmc-carousel-count{grid-column:2;grid-row:1}}',
+            '@media(max-width:900px){html{scroll-padding-top:88px}a.btn,button.btn{min-height:48px}.lmc-brand-logo{width:150px!important}.lmc-container{padding-left:24px;padding-right:24px}.lmc-past,.lmc-testimonials{padding:88px 0}.lmc-section-head,.lmc-testimonial-heading{grid-template-columns:1fr;gap:28px;margin-bottom:48px}.lmc-section-head>div:first-child,.lmc-section-intro,.lmc-testimonial-heading>div,.lmc-testimonial-heading>.lmc-content-note{grid-column:1;text-align:left}.lmc-section-head h2,.lmc-testimonial-heading h2{font-size:40px}.lmc-gallery{grid-template-columns:1fr;gap:20px}.lmc-card-copy{padding:28px}.lmc-carousel{padding-top:44px}.lmc-slide:not([hidden]){grid-template-columns:1fr;gap:32px}.lmc-slide blockquote,.lmc-slide>p{grid-column:1}.lmc-slide blockquote{font-size:33px}.lmc-carousel-controls{grid-template-columns:1fr auto}.lmc-carousel-dots{display:none}.lmc-carousel-count{grid-column:2;grid-row:1}}',
             '@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.lmc-reveal{opacity:1!important;transform:none!important}}'
           ].join('');
           document.head.appendChild(style);
@@ -707,6 +736,8 @@ document.addEventListener('DOMContentLoaded', async function() {
             window.setTimeout(installHomeShowcase, 450);
             window.setTimeout(installHomeShowcase, 1500);
           }
+          window.setTimeout(installBrandLogo, 350);
+          window.setTimeout(installBrandLogo, 1500);
 
           notify('ready');
           return true;
