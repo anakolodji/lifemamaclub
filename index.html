@@ -333,8 +333,184 @@ document.addEventListener('DOMContentLoaded', async function() {
     const UUID_SHAPE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
     const pendingFrames = {}; // uuid -> [{el, frag}] awaiting text for own frames
     const pendingRelays = {}; // uuid -> [childWindow] awaiting text to pass down
+    function enhancePage(text, route) {
+      if (!route) return text;
+
+      function pageBootstrap(currentRoute) {
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+        function notify(type, detail) {
+          window.parent.postMessage(Object.assign({ __lmc: type, route: currentRoute }, detail || {}), '*');
+        }
+
+        function sectionForLink(link) {
+          const label = (link.textContent || '').toLocaleLowerCase('pt-BR');
+          if (label.includes('experiência')) return 'experiencia';
+          if (label.includes('incluído') || label.includes('benefícios')) return 'incluido';
+          if (label.includes('club')) return 'club';
+          return '';
+        }
+
+        window.addEventListener('click', function(event) {
+          const link = event.target.closest && event.target.closest('a[href]');
+          if (!link) return;
+          const href = link.getAttribute('href') || '';
+
+          if (currentRoute === 'home' && href === '#candidatura') {
+            event.preventDefault();
+            notify('navigate', { target: 'candidatura' });
+            return;
+          }
+
+          if (/Candidatura[.]dc[.]html/i.test(href)) {
+            event.preventDefault();
+            notify('navigate', { target: 'candidatura' });
+            return;
+          }
+
+          if (/Main[.]dc[.]html/i.test(href)) {
+            event.preventDefault();
+            notify('navigate', { target: 'home', section: sectionForLink(link) });
+            return;
+          }
+
+          if (href === '#') event.preventDefault();
+        }, true);
+
+        window.addEventListener('submit', function(event) {
+          if (currentRoute !== 'candidatura' || !(event.target instanceof HTMLFormElement)) return;
+          const form = event.target;
+          const dimensionButtons = Array.from(form.querySelectorAll('[role="group"][aria-label="Dimensões da vida"] button'));
+          const hasDimension = dimensionButtons.some(function(button) {
+            return button.getAttribute('aria-pressed') === 'true' || button.classList.contains('is-selected');
+          });
+
+          let error = form.querySelector('#dimension-error');
+          if (!hasDimension) {
+            event.preventDefault();
+            if (!error) {
+              error = document.createElement('p');
+              error.id = 'dimension-error';
+              error.className = 'lmc-field-error';
+              error.setAttribute('role', 'alert');
+              error.textContent = 'Selecione pelo menos uma dimensão para continuar.';
+              const group = form.querySelector('[role="group"][aria-label="Dimensões da vida"]');
+              if (group) {
+                group.setAttribute('aria-describedby', error.id);
+                group.insertAdjacentElement('afterend', error);
+              }
+            }
+            if (dimensionButtons[0]) dimensionButtons[0].focus();
+          } else if (error) {
+            error.remove();
+          }
+
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            form.reportValidity();
+            return;
+          }
+
+          if (!hasDimension) return;
+          event.preventDefault();
+          notify('navigate', { target: 'confirmacao' });
+        }, true);
+
+        window.addEventListener('message', function(event) {
+          const data = event.data;
+          if (!data || data.__lmc !== 'activate') return;
+
+          if (data.section) {
+            const section = document.getElementById(data.section);
+            if (section) section.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'start' });
+            return;
+          }
+
+          window.scrollTo({ top: 0, behavior: 'auto' });
+          const heading = document.querySelector('h1');
+          if (heading) {
+            heading.setAttribute('tabindex', '-1');
+            heading.focus({ preventScroll: true });
+          }
+          window.setTimeout(function() { window.scrollTo({ top: 0, behavior: 'auto' }); }, 80);
+        });
+
+        function installEnhancements() {
+          if (!document.head || document.getElementById('lmc-enhancements')) return false;
+
+          document.documentElement.dataset.lmcRoute = currentRoute;
+          let viewport = document.querySelector('meta[name="viewport"]');
+          if (!viewport) {
+            viewport = document.createElement('meta');
+            viewport.name = 'viewport';
+            document.head.prepend(viewport);
+          }
+          viewport.content = 'width=device-width, initial-scale=1, viewport-fit=cover';
+          const style = document.createElement('style');
+          style.id = 'lmc-enhancements';
+          style.textContent = [
+            'html{scroll-behavior:smooth;scroll-padding-top:104px}',
+            'body{overflow-x:hidden}',
+            'a,button,input,textarea,select{transition-property:color,background-color,border-color,box-shadow,transform,opacity;transition-duration:.28s;transition-timing-function:cubic-bezier(.22,1,.36,1)}',
+            'a.btn:hover,button.btn:hover{transform:translateY(-2px)}',
+            'a.btn:active,button.btn:active{transform:translateY(0) scale(.985)}',
+            '.lmc-reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}',
+            '.lmc-reveal.is-visible{opacity:1;transform:none}',
+            '.lmc-field-error{margin-top:12px;color:#8c2f24;font-size:14px;font-weight:600;line-height:1.5}',
+            'html[data-lmc-route="home"] header{position:fixed!important;top:0;left:0;right:0;z-index:50;transition:background-color .35s ease,box-shadow .35s ease,backdrop-filter .35s ease}',
+            'html[data-lmc-route="home"] header.lmc-scrolled{background:rgba(71,41,31,.92);box-shadow:0 1px 0 rgba(255,255,255,.14);backdrop-filter:blur(14px)}',
+            'html[data-lmc-route="candidatura"] header{position:sticky!important;top:0;z-index:50;background:rgba(244,239,232,.94);backdrop-filter:blur(14px)}',
+            '@media(max-width:900px){html{scroll-padding-top:88px}a.btn,button.btn{min-height:48px}.lmc-reveal{transform:translateY(16px)}}',
+            '@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.lmc-reveal{opacity:1!important;transform:none!important}}'
+          ].join('');
+          document.head.appendChild(style);
+
+          const form = document.querySelector('form');
+          if (form) form.removeAttribute('novalidate');
+
+          const header = document.querySelector('header');
+          function updateHeader() {
+            if (header) header.classList.toggle('lmc-scrolled', window.scrollY > 24);
+          }
+          window.addEventListener('scroll', updateHeader, { passive: true });
+          updateHeader();
+
+          const revealItems = Array.from(document.querySelectorAll('section, main, footer'));
+          if (reduceMotion.matches || !('IntersectionObserver' in window)) {
+            revealItems.forEach(function(item) { item.classList.add('lmc-reveal', 'is-visible'); });
+          } else {
+            const observer = new IntersectionObserver(function(entries) {
+              entries.forEach(function(entry) {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+              });
+            }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+            revealItems.forEach(function(item, index) {
+              item.classList.add('lmc-reveal');
+              if (index === 0) item.classList.add('is-visible');
+              else observer.observe(item);
+            });
+          }
+
+          notify('ready');
+          return true;
+        }
+
+        let attempts = 0;
+        const installer = window.setInterval(function() {
+          attempts += 1;
+          if (installEnhancements() || attempts > 200) window.clearInterval(installer);
+        }, 25);
+      }
+
+      const shim = '<script>(' + pageBootstrap.toString() + ')(' + JSON.stringify(route) + ');<' + '/script>';
+      return /<[/]body>/i.test(text) ? text.replace(/<[/]body>/i, shim + '</body>') : text + shim;
+    }
+
     function mountPage(el, frag, text) {
-      const pageBlob = new Blob([text], { type: 'text/html' });
+      const route = el.getAttribute('data-route') || '';
+      const pageBlob = new Blob([enhancePage(text, route)], { type: 'text/html' });
       const u = URL.createObjectURL(pageBlob);
       resourceBlobs[u] = pageBlob;
       el.src = u + frag;
@@ -581,7 +757,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   </script>
 
   <script type="__bundler/template">
-"<!DOCTYPE html>\n<html lang=\"en\"><head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>Life Mama Club — Site<\u002Ftitle>\n<style>\nhtml{background:#f5f4ef;color:#1f1e1d;font:14px/1.4 system-ui,-apple-system,\"Segoe UI\",sans-serif}\nbody{margin:0;padding:48px;display:flex;flex-direction:column;align-items:flex-start;gap:48px}\n.board h2{margin:0 0 12px;font-size:13px;font-weight:500;color:#6b6a68}\n.board iframe{display:block;border:0;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.12)}\n<\u002Fstyle>\n<\u002Fhead>\n<body>\n<section class=\"board\"><h2>Landing page<\u002Fh2><iframe src=\"about:blank#58cae41f-0f8d-4780-9613-4bd6d2f92f2a\" title=\"Landing page\" width=\"1440\" height=\"8000\" loading=\"eager\" style=\"width:1440px;height:8000px\"><\u002Fiframe><\u002Fsection>\n<section class=\"board\"><h2>Candidatura<\u002Fh2><iframe src=\"about:blank#2610e130-17d9-438a-acbd-d00fd3fd2ed1\" title=\"Candidatura\" width=\"1440\" height=\"2560\" loading=\"eager\" style=\"width:1440px;height:2560px\"><\u002Fiframe><\u002Fsection>\n<section class=\"board\"><h2>Confirmação<\u002Fh2><iframe src=\"about:blank#b8c18fbc-0dfd-41ae-9fcf-145dac1e762b\" title=\"Confirmação\" width=\"1440\" height=\"760\" loading=\"eager\" style=\"width:1440px;height:760px\"><\u002Fiframe><\u002Fsection>\n\n\n<\u002Fbody><\u002Fhtml>"
+"<!DOCTYPE html>\n<html lang=\"pt-BR\"><head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\">\n<meta name=\"theme-color\" content=\"#76412F\">\n<title>Life Mama Club — Conexões, Desenvolvimento e Experiências<\u002Ftitle>\n<style>\n*{box-sizing:border-box}\nhtml,body{width:100%;height:100%;margin:0;overflow:hidden;background:#76412F}\nbody{font-family:Manrope,system-ui,-apple-system,\"Segoe UI\",sans-serif}\n.site-shell,.route-stack{position:relative;width:100%;height:100%}\n.route-frame{position:absolute;inset:0;width:100%;height:100%;border:0;background:#F4EFE8;opacity:0;visibility:hidden;pointer-events:none;transform:translateY(10px) scale(.997);transition:opacity .42s cubic-bezier(.22,1,.36,1),transform .42s cubic-bezier(.22,1,.36,1),visibility 0s linear .42s}\n.route-frame.is-active{opacity:1;visibility:visible;pointer-events:auto;transform:none;transition-delay:0s}\n.route-progress{position:fixed;z-index:20;top:0;left:0;width:100%;height:3px;pointer-events:none;transform:scaleX(0);transform-origin:left;background:#F0B58F;opacity:0;transition:transform .38s cubic-bezier(.22,1,.36,1),opacity .2s ease}\n.route-progress.is-moving{transform:scaleX(1);opacity:1}\n.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}\n@media(prefers-reduced-motion:reduce){.route-frame{transition:none;transform:none}.route-progress{display:none}}\n<\u002Fstyle>\n<\u002Fhead>\n<body>\n<main class=\"site-shell\" aria-label=\"Life Mama Club\">\n<h1 class=\"sr-only\">Life Mama Club<\u002Fh1>\n<div class=\"route-stack\">\n<iframe class=\"route-frame\" data-route=\"home\" src=\"about:blank#58cae41f-0f8d-4780-9613-4bd6d2f92f2a\" title=\"Life Mama Club\" loading=\"eager\"><\u002Fiframe>\n<iframe class=\"route-frame\" data-route=\"candidatura\" src=\"about:blank#2610e130-17d9-438a-acbd-d00fd3fd2ed1\" title=\"Candidatura — Life Mama Club\" loading=\"eager\"><\u002Fiframe>\n<iframe class=\"route-frame\" data-route=\"confirmacao\" src=\"about:blank#b8c18fbc-0dfd-41ae-9fcf-145dac1e762b\" title=\"Candidatura recebida — Life Mama Club\" loading=\"eager\"><\u002Fiframe>\n<\u002Fdiv>\n<div class=\"route-progress\" aria-hidden=\"true\"><\u002Fdiv>\n<p id=\"route-status\" class=\"sr-only\" role=\"status\" aria-live=\"polite\"><\u002Fp>\n<\u002Fmain>\n<script>\n(function(){\n  const frames=Array.from(document.querySelectorAll('.route-frame'));\n  const progress=document.querySelector('.route-progress');\n  const status=document.getElementById('route-status');\n  const labels={home:'Life Mama Club',candidatura:'Candidatura',confirmacao:'Candidatura recebida'};\n  let activeRoute='';\n  let transitionTimer=0;\n  function routeFromLocation(){\n    const value=location.hash.replace(/^#\\/?/,'').split('/')[0];\n    return labels[value]?value:'home';\n  }\n  function activate(route,options){\n    const next=labels[route]?route:'home';\n    const opts=options||{};\n    const changed=activeRoute!==next;\n    activeRoute=next;\n    frames.forEach(function(frame){\n      const active=frame.dataset.route===next;\n      frame.classList.toggle('is-active',active);\n      frame.setAttribute('aria-hidden',String(!active));\n      frame.tabIndex=active?0:-1;\n    });\n    if(opts.history!==false){\n      const hash=next==='home'?'#/':'#/'+next;\n      if(location.hash!==hash) history.pushState({route:next},'',hash);\n    }\n    document.title=next==='home'?'Life Mama Club — Conexões, Desenvolvimento e Experiências':labels[next]+' — Life Mama Club';\n    status.textContent=labels[next]+' carregada';\n    if(changed){\n      progress.classList.add('is-moving');\n      clearTimeout(transitionTimer);\n      transitionTimer=setTimeout(function(){progress.classList.remove('is-moving')},430);\n    }\n    const activeFrame=frames.find(function(frame){return frame.dataset.route===next});\n    setTimeout(function(){\n      if(activeFrame&&activeFrame.contentWindow){\n        activeFrame.contentWindow.postMessage({__lmc:'activate',section:opts.section||''},'*');\n      }\n    },changed?440:40);\n  }\n  window.addEventListener('message',function(event){\n    const frame=frames.find(function(item){return item.contentWindow===event.source});\n    if(!frame||!event.data||!event.data.__lmc)return;\n    if(event.data.__lmc==='navigate')activate(event.data.target,{section:event.data.section||''});\n    if(event.data.__lmc==='ready'&&frame.dataset.route===activeRoute){\n      frame.contentWindow.postMessage({__lmc:'activate'},'*');\n    }\n  });\n  window.addEventListener('popstate',function(){activate(routeFromLocation(),{history:false})});\n  activate(routeFromLocation(),{history:false});\n})();\n<\u002Fscript>\n<\u002Fbody><\u002Fhtml>"
   </script>
 </body>
 </html>
