@@ -518,93 +518,53 @@ document.addEventListener('DOMContentLoaded', async function() {
             baseUrl = './';
           }
           const imageUrl = function(name) { return new URL('assets/' + name, baseUrl).href; };
+          const wellnessPhotos = [
+            'EAFoto_LifeMama_Experience_WellnessEdition_31.10.2026_008_AR.jpg',
+            'EAFoto_LifeMama_Experience_WellnessEdition_31.10.2026_022_AR.jpg',
+            'EAFoto_LifeMama_Experience_WellnessEdition_31.10.2026_044_AR (1).jpg',
+            'EAFoto_LifeMama_Experience_WellnessEdition_31.10.2026_048_AR.jpg',
+            'EAFoto_LifeMama_Experience_WellnessEdition_31.10.2026_055_AR.jpg',
+            'EAFoto_LifeMama_Experience_WellnessEdition_31.10.2026_1122_AR.jpg',
+            'EAFoto_LifeMama_Experience_WellnessEdition_31.10.2026_1287_AR.jpg',
+            'EAFoto_LifeMama_Experience_WellnessEdition_31.10.2026_1382_AR.jpg',
+            'EAFoto_LifeMama_Experience_WellnessEdition_31.10.2026_1386_AR.jpg',
+            'EAFoto_LifeMama_Experience_WellnessEdition_31.10.2026_1394_AR.jpg',
+            'EAFoto_LifeMama_Experience_WellnessEdition_31.10.2026_1470_AR.jpg',
+            'EAFoto_LifeMama_Experience_WellnessEdition_31.10.2026_150_AR.jpg',
+            'EAFoto_LifeMama_Experience_WellnessEdition_31.10.2026_1568_AR.jpg',
+            'EAFoto_LifeMama_Experience_WellnessEdition_31.10.2026_1650_AR.jpg',
+            'EAFoto_LifeMama_Experience_WellnessEdition_31.10.2026_1658_AR.jpg',
+            'EAFoto_LifeMama_Experience_WellnessEdition_31.10.2026_190_AR.jpg',
+            'EAFoto_LifeMama_Experience_WellnessEdition_31.10.2026_311_AR.jpg',
+            'EAFoto_LifeMama_Experience_WellnessEdition_31.10.2026_411_AR.jpg',
+            'EAFoto_LifeMama_Experience_WellnessEdition_31.10.2026_702_AR.jpg',
+            'EAFoto_LifeMama_Experience_WellnessEdition_31.10.2026_815_AR.jpg'
+          ];
+          const wellnessPhotoSlides = wellnessPhotos.map(function(file, index) {
+            return `<figure class="lmc-photo-slide" role="group" aria-roledescription="slide" aria-label="${index + 1} de ${wellnessPhotos.length}"${index ? ' hidden' : ''}><img src="${imageUrl(file)}" alt="Registro ${index + 1} do Life Mama Experience Wellness Edition 1" loading="${index ? 'lazy' : 'eager'}" decoding="async" draggable="false"></figure>`;
+          }).join('');
           const shell = document.createElement('div');
           shell.innerHTML = `
             <section id="experiencias-passadas" class="lmc-past lmc-reveal is-visible" aria-labelledby="past-title">
               <div class="lmc-container">
                 <div class="lmc-section-head">
                   <div>
-                    <p class="lmc-eyebrow">Experiências em destaque</p>
+                    <p class="lmc-eyebrow">Life Mama Experience Wellness Edition 1</p>
                     <h2 id="past-title" class="serif">Encontros que deixam histórias para contar.</h2>
                   </div>
-                  <div class="lmc-section-intro">
-                    <p>Uma seleção de propostas que traduzem o espírito do Club: presença, descoberta e conversas que continuam depois do encontro.</p>
-                    <p class="lmc-content-note">Galeria conceitual · imagens ilustrativas até a inclusão dos registros oficiais.</p>
-                  </div>
                 </div>
-                <div class="lmc-gallery">
-                  <article class="lmc-experience-card">
-                    <figure>
-                      <img src="${imageUrl('wellness-movement.jpg')}" loading="lazy" decoding="async" alt="Mulheres praticando movimento e bem-estar em grupo">
-                      <figcaption>Imagem ilustrativa</figcaption>
-                    </figure>
-                    <div class="lmc-card-copy">
-                      <p class="lmc-card-number">Proposta 01 · Wellness</p>
-                      <h3 class="serif">Manhã de presença</h3>
-                      <p>Movimento gentil, pausas conscientes e uma conversa acolhedora para começar o dia com mais espaço e conexão.</p>
-                      <ul aria-label="Destaques da proposta"><li>Movimento</li><li>Autocuidado</li><li>Conexão</li></ul>
+                <div class="lmc-photo-carousel" role="region" aria-roledescription="carrossel" aria-label="Fotos do Life Mama Experience Wellness Edition 1" tabindex="0">
+                  <div class="lmc-photo-frame">
+                    ${wellnessPhotoSlides}
+                  </div>
+                  <div class="lmc-photo-controls">
+                    <div class="lmc-photo-arrows">
+                      <button type="button" data-photo-carousel="previous" aria-label="Foto anterior">←</button>
+                      <button type="button" data-photo-carousel="next" aria-label="Próxima foto">→</button>
+                      <button type="button" data-photo-carousel="toggle" aria-label="Pausar reprodução automática" aria-pressed="false">Ⅱ</button>
                     </div>
-                  </article>
-                  <article class="lmc-experience-card">
-                    <figure>
-                      <img src="${imageUrl('creative-clay.jpg')}" loading="lazy" decoding="async" alt="Mãos modelando argila durante uma oficina criativa">
-                      <figcaption>Imagem ilustrativa</figcaption>
-                    </figure>
-                    <div class="lmc-card-copy">
-                      <p class="lmc-card-number">Proposta 02 · Criatividade</p>
-                      <h3 class="serif">Criar com as mãos</h3>
-                      <p>Uma oficina tátil para experimentar a cerâmica, desacelerar e descobrir novas formas de expressão em boa companhia.</p>
-                      <ul aria-label="Destaques da proposta"><li>Cerâmica</li><li>Descoberta</li><li>Trocas</li></ul>
-                    </div>
-                  </article>
-                  <article class="lmc-experience-card">
-                    <figure>
-                      <img src="${imageUrl('community-roundtable.jpg')}" loading="lazy" decoding="async" alt="Mulheres reunidas ao redor de uma mesa para conversar">
-                      <figcaption>Imagem ilustrativa</figcaption>
-                    </figure>
-                    <div class="lmc-card-copy">
-                      <p class="lmc-card-number">Proposta 03 · Conexões</p>
-                      <h3 class="serif">Mesa de trocas</h3>
-                      <p>Uma conversa mediada sobre escolhas, projetos e caminhos possíveis, com escuta atenta e perspectivas diversas.</p>
-                      <ul aria-label="Destaques da proposta"><li>Carreira</li><li>Repertório</li><li>Comunidade</li></ul>
-                    </div>
-                  </article>
-                  <article class="lmc-experience-card">
-                    <figure>
-                      <img src="${imageUrl('creative-florist.jpg')}" loading="lazy" decoding="async" alt="Mulher preparando flores em uma oficina criativa">
-                      <figcaption>Imagem ilustrativa</figcaption>
-                    </figure>
-                    <div class="lmc-card-copy">
-                      <p class="lmc-card-number">Proposta 04 · Hobbies</p>
-                      <h3 class="serif">Compor com flores</h3>
-                      <p>Um encontro para descobrir técnicas florais, criar com delicadeza e compartilhar uma pausa inspiradora.</p>
-                      <ul aria-label="Destaques da proposta"><li>Flores</li><li>Criação</li><li>Presença</li></ul>
-                    </div>
-                  </article>
-                  <article class="lmc-experience-card">
-                    <figure>
-                      <img src="${imageUrl('creative-painting.jpg')}" loading="lazy" decoding="async" alt="Mulher pintando em um ateliê de arte">
-                      <figcaption>Imagem ilustrativa</figcaption>
-                    </figure>
-                    <div class="lmc-card-copy">
-                      <p class="lmc-card-number">Proposta 05 · Arte</p>
-                      <h3 class="serif">Pintar novas perspectivas</h3>
-                      <p>Uma experiência de pintura para explorar cores, exercitar o olhar e abrir espaço para outras formas de expressão.</p>
-                      <ul aria-label="Destaques da proposta"><li>Pintura</li><li>Repertório</li><li>Expressão</li></ul>
-                    </div>
-                  </article>
-                  <article class="lmc-experience-card">
-                    <figure>
-                      <img src="${imageUrl('culture-gallery-friends.jpg')}" loading="lazy" decoding="async" alt="Duas mulheres visitando juntas uma exposição de arte">
-                      <figcaption>Imagem ilustrativa</figcaption>
-                    </figure>
-                    <div class="lmc-card-copy">
-                      <p class="lmc-card-number">Proposta 06 · Cultura</p>
-                      <h3 class="serif">Olhares compartilhados</h3>
-                      <p>Uma visita cultural que combina descoberta, repertório e conversas sobre tudo o que uma obra pode despertar.</p>
-                      <ul aria-label="Destaques da proposta"><li>Arte</li><li>Cultura</li><li>Conversa</li></ul>
-                    </div>
-                  </article>
+                    <p class="lmc-photo-count" aria-live="off"><span>01–03</span> / ${String(wellnessPhotos.length).padStart(2, '0')}</p>
+                  </div>
                 </div>
               </div>
             </section>
@@ -615,21 +575,20 @@ document.addEventListener('DOMContentLoaded', async function() {
                     <p class="lmc-eyebrow">Vozes da comunidade</p>
                     <h2 id="testimonials-title" class="serif">O que fica depois de cada encontro.</h2>
                   </div>
-                  <p class="lmc-content-note">Conteúdo de demonstração · substitua pelos relatos autorizados das participantes.</p>
                 </div>
                 <div class="lmc-carousel" role="region" aria-roledescription="carrossel" aria-labelledby="testimonials-title" tabindex="0">
                   <div class="lmc-slides" aria-live="polite">
                     <article class="lmc-slide" role="group" aria-roledescription="slide" aria-label="1 de 3">
                       <blockquote class="serif">“Foi um espaço para desacelerar, conversar sem pressa e lembrar que não precisamos atravessar todas as fases sozinhas.”</blockquote>
-                      <p><strong>Depoimento modelo</strong><span>Nome e experiência a confirmar</span></p>
+                      <p>Participante do Life Mama Experience Wellness Edition</p>
                     </article>
                     <article class="lmc-slide" role="group" aria-roledescription="slide" aria-label="2 de 3" hidden>
                       <blockquote class="serif">“Saí com novas referências, ideias possíveis e a sensação boa de ter encontrado mulheres com quem eu realmente queria continuar a conversa.”</blockquote>
-                      <p><strong>Depoimento modelo</strong><span>Nome e experiência a confirmar</span></p>
+                      <p>Participante do Life Mama Experience Wellness Edition</p>
                     </article>
                     <article class="lmc-slide" role="group" aria-roledescription="slide" aria-label="3 de 3" hidden>
                       <blockquote class="serif">“A experiência abriu espaço para uma descoberta que eu vinha adiando — e fez isso de um jeito leve, bonito e muito humano.”</blockquote>
-                      <p><strong>Depoimento modelo</strong><span>Nome e experiência a confirmar</span></p>
+                      <p>Participante do Life Mama Experience Wellness Edition</p>
                     </article>
                   </div>
                   <div class="lmc-carousel-controls">
@@ -654,6 +613,72 @@ document.addEventListener('DOMContentLoaded', async function() {
           if (experience) experience.after(showcase, testimonials);
           else included.after(showcase, testimonials);
 
+          const photoCarousel = showcase.querySelector('.lmc-photo-carousel');
+          const photoSlides = Array.from(photoCarousel.querySelectorAll('.lmc-photo-slide'));
+          const photoFrame = photoCarousel.querySelector('.lmc-photo-frame');
+          const photoCount = photoCarousel.querySelector('.lmc-photo-count span');
+          const autoplayButton = photoCarousel.querySelector('[data-photo-carousel="toggle"]');
+          let activePhoto = 0;
+          let photoPointerStart = null;
+          let autoplayTimer = null;
+          let autoplayPaused = false;
+          function showPhoto(index) {
+            activePhoto = (index + photoSlides.length) % photoSlides.length;
+            photoSlides.forEach(function(slide) { slide.hidden = true; });
+            for (let offset = 0; offset < 3; offset += 1) {
+              const slideIndex = (activePhoto + offset) % photoSlides.length;
+              const slide = photoSlides[slideIndex];
+              slide.hidden = false;
+              slide.setAttribute('aria-label', `${slideIndex + 1} de ${photoSlides.length}`);
+              slide.setAttribute('aria-hidden', 'false');
+              photoFrame.appendChild(slide);
+            }
+            const rangeEnd = (activePhoto + 2) % photoSlides.length;
+            photoCount.textContent = `${String(activePhoto + 1).padStart(2, '0')}–${String(rangeEnd + 1).padStart(2, '0')}`;
+          }
+          function stopPhotoAutoplay() {
+            if (autoplayTimer === null) return;
+            window.clearInterval(autoplayTimer);
+            autoplayTimer = null;
+          }
+          function startPhotoAutoplay() {
+            if (autoplayPaused || autoplayTimer !== null) return;
+            autoplayTimer = window.setInterval(function() { showPhoto(activePhoto + 1); }, 4000);
+          }
+          function restartPhotoAutoplay() {
+            stopPhotoAutoplay();
+            startPhotoAutoplay();
+          }
+          function movePhoto(step) {
+            showPhoto(activePhoto + step);
+            restartPhotoAutoplay();
+          }
+          photoCarousel.querySelector('[data-photo-carousel="previous"]').addEventListener('click', function() { movePhoto(-1); });
+          photoCarousel.querySelector('[data-photo-carousel="next"]').addEventListener('click', function() { movePhoto(1); });
+          autoplayButton.addEventListener('click', function() {
+            autoplayPaused = !autoplayPaused;
+            autoplayButton.setAttribute('aria-pressed', String(autoplayPaused));
+            autoplayButton.setAttribute('aria-label', autoplayPaused ? 'Retomar reprodução automática' : 'Pausar reprodução automática');
+            autoplayButton.textContent = autoplayPaused ? '▶' : 'Ⅱ';
+            if (autoplayPaused) stopPhotoAutoplay();
+            else startPhotoAutoplay();
+          });
+          photoCarousel.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') { event.preventDefault(); movePhoto(-1); }
+            if (event.key === 'ArrowRight') { event.preventDefault(); movePhoto(1); }
+          });
+          photoFrame.addEventListener('pointerdown', function(event) { photoPointerStart = event.clientX; });
+          photoFrame.addEventListener('pointerup', function(event) {
+            if (photoPointerStart === null) return;
+            const distance = event.clientX - photoPointerStart;
+            photoPointerStart = null;
+            if (Math.abs(distance) < 48) return;
+            movePhoto(distance < 0 ? 1 : -1);
+          });
+          photoFrame.addEventListener('pointercancel', function() { photoPointerStart = null; });
+          showPhoto(0);
+          startPhotoAutoplay();
+
           const primaryNav = document.querySelector('nav.nav');
           if (primaryNav && !primaryNav.querySelector('a[href="#experiencias-passadas"]')) {
             const galleryLink = document.createElement('a');
@@ -671,6 +696,46 @@ document.addEventListener('DOMContentLoaded', async function() {
             partnerLink.textContent = 'Empresas';
             const applicationLink = primaryNav.querySelector('a[href="#candidatura"]');
             primaryNav.insertBefore(partnerLink, applicationLink || null);
+          }
+          if (primaryNav && !document.querySelector('[data-lmc-mobile-menu]')) {
+            const header = primaryNav.closest('header');
+            if (header) {
+              primaryNav.id = primaryNav.id || 'lmc-primary-nav';
+              const menuButton = document.createElement('button');
+              menuButton.type = 'button';
+              menuButton.className = 'lmc-mobile-menu-toggle';
+              menuButton.dataset.lmcMobileMenu = 'true';
+              menuButton.setAttribute('aria-controls', primaryNav.id);
+              menuButton.setAttribute('aria-expanded', 'false');
+              menuButton.setAttribute('aria-label', 'Abrir menu principal');
+              menuButton.innerHTML = '<span aria-hidden="true">☰</span>';
+              primaryNav.before(menuButton);
+
+              function setMobileNavOpen(open) {
+                primaryNav.classList.toggle('lmc-mobile-nav-open', open);
+                menuButton.setAttribute('aria-expanded', String(open));
+                menuButton.setAttribute('aria-label', open ? 'Fechar menu principal' : 'Abrir menu principal');
+                menuButton.innerHTML = `<span aria-hidden="true">${open ? '×' : '☰'}</span>`;
+              }
+              menuButton.addEventListener('click', function() {
+                setMobileNavOpen(menuButton.getAttribute('aria-expanded') !== 'true');
+              });
+              primaryNav.addEventListener('click', function(event) {
+                if (event.target.closest('a')) setMobileNavOpen(false);
+              });
+              document.addEventListener('pointerdown', function(event) {
+                if (menuButton.getAttribute('aria-expanded') === 'true' && !header.contains(event.target)) setMobileNavOpen(false);
+              });
+              document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && menuButton.getAttribute('aria-expanded') === 'true') {
+                  setMobileNavOpen(false);
+                  menuButton.focus();
+                }
+              });
+              window.addEventListener('resize', function() {
+                if (window.innerWidth > 900) setMobileNavOpen(false);
+              });
+            }
           }
           reorderHomeFlow();
 
@@ -765,6 +830,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             'figure.lmc-photo-loaded>img.lmc-editorial-photo{position:absolute;z-index:0;inset:0;display:block;width:100%;height:100%;object-fit:cover}',
             'figure.lmc-photo-loaded>figcaption{position:absolute!important;z-index:2;right:0;bottom:0;left:0;max-width:none!important;margin:0!important;padding:48px!important;color:#fff!important}',
             '.lmc-container{width:100%;max-width:1280px;margin:0 auto;padding-left:64px;padding-right:64px;box-sizing:border-box}',
+            '.lmc-mobile-menu-toggle{display:none}',
             '.lmc-past{background:#352820;color:#fff;padding:144px 0}',
             '.lmc-section-head{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:32px;align-items:end;margin-bottom:72px}',
             '.lmc-section-head>div:first-child{grid-column:1/span 6}',
@@ -772,6 +838,18 @@ document.addEventListener('DOMContentLoaded', async function() {
             '.lmc-eyebrow{font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;margin-bottom:22px}',
             '.lmc-section-head h2,.lmc-testimonial-heading h2{font-size:54px;line-height:1.06;letter-spacing:-.01em;max-width:10em}',
             '.lmc-content-note{font-size:12px!important;font-weight:600;line-height:1.5!important;letter-spacing:.06em;text-transform:uppercase;opacity:.72}',
+            '.lmc-photo-carousel{outline:none}',
+            '.lmc-photo-frame{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;touch-action:pan-y}',
+            '.lmc-photo-slide{display:grid;place-items:center;min-width:0;height:clamp(220px,24vw,300px);margin:0;overflow:hidden;background:rgba(255,255,255,.07)}',
+            '.lmc-photo-slide[hidden]{display:none}',
+            '@keyframes lmcPhotoIn{from{opacity:.72;transform:translateX(8px)}to{opacity:1;transform:translateX(0)}}',
+            '.lmc-photo-slide img{display:block;min-width:0!important;min-height:0!important;width:100%!important;height:100%!important;object-fit:contain!important;object-position:center center;animation:lmcPhotoIn .42s cubic-bezier(.22,1,.36,1) both}',
+            '.lmc-photo-controls{display:flex;align-items:center;justify-content:space-between;margin-top:24px}',
+            '.lmc-photo-arrows{display:flex;gap:10px}',
+            '.lmc-photo-arrows button{display:grid;place-items:center;flex:0 0 48px;width:48px;height:48px;border:1px solid rgba(255,255,255,.7);border-radius:50%;background:transparent;color:#fff;font-size:20px;cursor:pointer}',
+            '.lmc-photo-arrows button:hover{background:#fff;color:#352820}',
+            '.lmc-photo-arrows button:focus-visible,.lmc-photo-carousel:focus-visible{outline:2px solid #fff;outline-offset:4px}',
+            '.lmc-photo-count{font-size:12px;font-weight:600;letter-spacing:.1em}',
             '.lmc-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}',
             '.lmc-experience-card{display:flex;flex-direction:column;min-width:0;background:#F4EFE8;color:#352820;overflow:hidden}',
             '.lmc-experience-card figure{position:relative;aspect-ratio:4/3;overflow:hidden;background:#465E4D}',
@@ -808,7 +886,12 @@ document.addEventListener('DOMContentLoaded', async function() {
             'html[data-lmc-route="home"] header.lmc-scrolled{background:rgba(71,41,31,.92);box-shadow:0 1px 0 rgba(255,255,255,.14);backdrop-filter:blur(14px)}',
             'html[data-lmc-route="candidatura"] header{position:sticky!important;top:0;z-index:50;background:rgba(244,239,232,.94);backdrop-filter:blur(14px)}',
             '@media(max-width:1180px) and (min-width:901px){nav.nav{gap:20px!important}nav.nav a{font-size:13px!important}.lmc-container{padding-left:40px;padding-right:40px}}',
-            '@media(max-width:900px){html{scroll-padding-top:88px}a.btn,button.btn{min-height:48px}.lmc-brand-logo{width:150px!important}figure.lmc-photo-loaded>figcaption{padding:28px!important}.lmc-container{padding-left:24px;padding-right:24px}.lmc-past,.lmc-testimonials{padding:88px 0}.lmc-section-head,.lmc-testimonial-heading{grid-template-columns:1fr;gap:28px;margin-bottom:48px}.lmc-section-head>div:first-child,.lmc-section-intro,.lmc-testimonial-heading>div,.lmc-testimonial-heading>.lmc-content-note{grid-column:1;text-align:left}.lmc-section-head h2,.lmc-testimonial-heading h2{font-size:40px}.lmc-gallery{grid-template-columns:1fr;gap:20px}.lmc-card-copy{padding:28px}.lmc-carousel{padding-top:44px}.lmc-slide:not([hidden]){grid-template-columns:1fr;gap:32px}.lmc-slide blockquote,.lmc-slide>p{grid-column:1}.lmc-slide blockquote{font-size:33px}.lmc-carousel-controls{grid-template-columns:1fr auto}.lmc-carousel-dots{display:none}.lmc-carousel-count{grid-column:2;grid-row:1}}',
+            '@media(max-width:900px){.lmc-photo-frame{gap:10px}}',
+            '@media(max-width:600px){.lmc-photo-frame{gap:6px}.lmc-photo-slide{height:160px}.lmc-photo-controls{margin-top:16px}.lmc-photo-arrows button{flex-basis:42px;width:42px;height:42px}}',
+            '@media(max-width:900px){header .wrap{height:76px!important;gap:10px!important;padding-left:16px!important;padding-right:16px!important}.lmc-brand-logo{width:112px!important}header a.btn.btn-ghost{padding:10px 12px!important;font-size:12px!important;line-height:1.3!important;min-height:42px!important;white-space:nowrap!important}.lmc-mobile-menu-toggle{display:grid!important;place-items:center;flex:0 0 44px;width:44px;height:44px;padding:0;border:1px solid rgba(255,255,255,.55);border-radius:50%;background:transparent;color:#fff;font-size:20px;cursor:pointer}.lmc-mobile-menu-toggle:focus-visible{outline:2px solid #F0B58F;outline-offset:3px}nav.nav.lmc-mobile-nav-open{position:fixed!important;top:76px!important;left:12px!important;right:12px!important;z-index:1001!important;display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:0!important;max-height:calc(100dvh - 92px)!important;overflow-y:auto!important;overscroll-behavior:contain;padding:8px 16px!important;background:#352820!important;border:1px solid rgba(255,255,255,.18);box-shadow:0 12px 32px rgba(0,0,0,.24);border-radius:4px}nav.nav.lmc-mobile-nav-open a{display:flex!important;align-items:center;min-height:48px;padding:10px 4px;color:#fff!important;font-size:15px!important;line-height:1.4!important;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.16)}nav.nav.lmc-mobile-nav-open a:last-child{border-bottom:0}nav.nav.lmc-mobile-nav-open a:focus-visible{outline:2px solid #F0B58F;outline-offset:-2px}}',
+            '@media(max-width:900px){header .wrap>a:first-child .lmc-brand-logo{width:112px!important}}',
+            '@media(max-width:900px){.lmc-container{padding-left:24px!important;padding-right:24px!important}.lmc-section-head,.lmc-testimonial-heading{grid-template-columns:minmax(0,1fr)!important;gap:28px!important;margin-bottom:48px!important}.lmc-section-head>div:first-child,.lmc-section-intro,.lmc-testimonial-heading>div,.lmc-testimonial-heading>.lmc-content-note{grid-column:1/-1!important;width:100%!important;max-width:100%!important;text-align:left!important}.lmc-section-head h2,.lmc-testimonial-heading h2{max-width:100%!important;font-size:clamp(30px,9vw,40px)!important;line-height:1.12!important}.lmc-slide:not([hidden]){display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:24px!important}.lmc-slide blockquote,.lmc-slide>p{grid-column:1/-1!important;min-width:0!important;width:100%!important;max-width:100%!important}.lmc-slide blockquote{font-size:clamp(28px,8vw,33px)!important}.lmc-slide>p{overflow-wrap:anywhere!important}}',
+            '@media(max-width:900px){.lmc-slide blockquote{margin:0!important}}',
             '@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.lmc-reveal{opacity:1!important;transform:none!important}}'
           ].join('');
           document.head.appendChild(style);
